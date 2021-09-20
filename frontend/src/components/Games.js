@@ -12,13 +12,26 @@ class Games extends Component {
             .then(res => res.json())
             .then((games) => this.setState({ games }))
     }
+
+    handleOnDelete = (id) => {
+        fetch(`http://localhost:9292/games/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        //fetch("http://localhost:9292/games")
+          .then(res => res.json())
+          .then(data => this.props.history.go(0))
+      };
+
     renderGames = () => {
         console.log(this.state.games)
         return this.state.games.map(game => {
             return (
-                <div>
+                <div key={`game-${game.id}`}>
                     <img className ="game_image"src ={game.image_url} alt=""/>
-                    <h1>{game.name}</h1>
+                    <h1>{game.name} <button onClick={() => this.handleOnDelete(game.id)}>x</button></h1>
                     <p>Console: {game.console}</p>
                 </div>
             )
