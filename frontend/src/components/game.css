@@ -1,0 +1,6 @@
+.game_image{
+    max-height: 50mm;
+    min-height: 30mm;
+    max-width: 60mm;
+    object-fit: contain;
+}

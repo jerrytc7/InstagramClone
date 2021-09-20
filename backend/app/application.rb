@@ -6,9 +6,16 @@ class Application
 
     if req.path.match(/games/)  && req.get?
       games = Game.all
-      return [200, { 'Content-Type' => 'application/json' }, [ games.to_json ]]
+      games_with_console = games.map do |game|
+        {id: game.id, name: game.name, image_url: game.image_url, console:game.console.name}
+      end
+      return [200, { 'Content-Type' => 'application/json' }, [ games_with_console.to_json ]]
+    elsif req.path.match(/consoles/)  && req.get?
+        consoles = Console.all
+        return [200, { 'Content-Type' => 'application/json' }, [ consoles.to_json ]]
     elsif req.path.match(/games/)  && req.post?
       data = JSON.parse req.body.read
+      puts data
       game = Game.create(data)
       return [200, { 'Content-Type' => 'application/json' }, [ games.to_json ]]
     elsif req.path.match(/games/)  && req.delete?
