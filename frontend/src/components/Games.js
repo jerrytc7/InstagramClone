@@ -21,8 +21,14 @@ class Games extends Component {
           },
         })
         //fetch("http://localhost:9292/games")
-          .then(res => res.json())
-          .then(data => this.props.history.go(0))
+        //   .then(res => res.json())
+          .then(() => {
+            this.setState({
+                games: this.state.games.filter((game) =>{
+                    return game.id !== id
+                })
+            })
+          })
       };
 
     renderGames = () => {
