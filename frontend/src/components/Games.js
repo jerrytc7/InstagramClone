@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import "./game.css";
+import NewGameForm from './NewGameForm';
 
 class Games extends Component {
     state = {
@@ -31,6 +31,19 @@ class Games extends Component {
           })
       };
 
+      createNewGame = (game) => {
+        const config = {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(game),
+        };
+        fetch("http://localhost:9292/games", config)
+          .then(res => res.json())
+          .then(data => this.setState({games: [...this.state.games, data]}))
+      };
+
     renderGames = () => {
         console.log(this.state.games)
         return this.state.games.map(game => {
@@ -46,7 +59,7 @@ class Games extends Component {
 
     render() {
         return (
-            <><Link to="/games/new">New Game</Link><ul>{this.renderGames()}</ul></>
+            <><NewGameForm createNewGame={this.createNewGame}/><ul>{this.renderGames()}</ul></>
         )
     }
 }

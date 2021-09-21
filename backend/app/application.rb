@@ -17,7 +17,8 @@ class Application
       data = JSON.parse req.body.read
       puts data
       game = Game.create(data)
-      return [200, { 'Content-Type' => 'application/json' }, [ games.to_json ]]
+      game={id: game.id, name: game.name, image_url: game.image_url, console:game.console.name}
+      return [200, { 'Content-Type' => 'application/json' }, [ game.to_json ]]
     elsif req.path.match(/games/)  && req.delete?
       id = req.path_info.split('/games/').last
       game = Game.find(id)

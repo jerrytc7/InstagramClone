@@ -21,16 +21,24 @@ class NewGameForm extends Component {
 
   handleOnSubmit = (e) => {
     e.preventDefault();
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({name: this.state.name, console_id: this.state.console_id, image_url: this.state.image_url}),
-    };
-    fetch("http://localhost:9292/games", config)
-      .then(res => res.json())
-      .then(data => this.props.history.push("/games"))
+    const game = {name: this.state.name, console_id: this.state.console_id, image_url: this.state.image_url}
+    this.props.createNewGame(game)
+    this.setState({
+      ...this.state,
+      name: "",
+      console_id: this.state.consoles[0].id,
+      image_url: "",
+    });
+    // const config = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({name: this.state.name, console_id: this.state.console_id, image_url: this.state.image_url}),
+    // };
+    // fetch("http://localhost:9292/games", config)
+    //   .then(res => res.json())
+    //   .then(data => this.props.history.push("/games"))
   };
 
   renderConsoles = () => {
@@ -46,17 +54,17 @@ class NewGameForm extends Component {
           onChange={this.handleOnChange}
           type="text"
           name="name"
-          value={this.props.name}
+          value={this.state.name}
           id="text"
         />
-        <select onChange={this.handleOnChange} name="console_id" id="">
+        <select onChange={this.handleOnChange} value={this.state.console_id} name="console_id" id="">
           {this.renderConsoles()}
         </select>
         <input
           onChange={this.handleOnChange}
           type="text"
           name="image_url"
-          value={this.props.image_url}
+          value={this.state.image_url}
           id="text"
         />
         <button>Submit</button>
